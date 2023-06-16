@@ -7,7 +7,6 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ["category_title", "category_code"]
     list_filter = ["category_title",]
 
-
 class MenuAdmin(admin.ModelAdmin):
     list_display = ("menu_title", "menu_category", "menu_price", "menu_ingredient", "menu_created_at")
     search_fields = ("menu_title",)
