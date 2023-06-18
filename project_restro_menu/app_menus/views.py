@@ -4,7 +4,18 @@ from app_menus.models import Menu, Category
 
 # Create your views here.
 def list_menu(request):
-    return render(request, 'menus/list_menu.html')
+    menu_list = Menu.objects.all()
+    context = { "data": menu_list}
+    return render(request, 'menus/list_menu.html', context)
+
+def show_menu(request, id):
+    return render(request, 'menus/show_menu.html')
+
+def edit_menu(request, id):
+    return render(request, 'menus/edit_menu.html')
+
+def delete_menu(request, id):
+    return redirect('menu-list')
 
 def add_menu(request):
     menu_create_form = MenuCreateForm() # creating Form Class object
