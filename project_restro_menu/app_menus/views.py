@@ -9,12 +9,27 @@ def list_menu(request):
     return render(request, 'menus/list_menu.html', context)
 
 def show_menu(request, id):
-    return render(request, 'menus/show_menu.html')
+    menu_obj = Menu.objects.get(id=id)
+    context = {"data": menu_obj}
+    return render(request, 'menus/show_menu.html', context)
 
 def edit_menu(request, id):
-    return render(request, 'menus/edit_menu.html')
+    menu_obj = Menu.objects.get(id=id)
+    category_obj = Category.objects.all()
+
+    context = {"data": menu_obj, "categories": category_obj}
+    # to update data
+    if request.method == "POST":
+        menu_obj = MenuCreateForm(data=request.POST, instance=menu_obj)
+        if menu_obj.is_valid():
+            menu_obj.save()
+            return redirect("menu-edit", id) # redirecting to url having id
+        
+    return render(request, 'menus/edit_menu.html', context)
 
 def delete_menu(request, id):
+    menu_obj = Menu.objects.get(id=id)
+    menu_obj.delete()
     return redirect('menu-list')
 
 def add_menu(request):
