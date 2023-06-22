@@ -10,7 +10,16 @@ class LoginView(View):
         return render(request, 'accounts/login.html')
 
     def post(self, request):
-        pass
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        try:
+            user = authenticate(request, username=username, password=password)
+        except User.DoesNotExist as error:
+            print(error)
+        if user is not None:
+            login(request, user)
+            return redirect('menu-list')
+        return redirect('login')
 
 class RegisterView(View):
     def get(self, request):
