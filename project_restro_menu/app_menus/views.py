@@ -1,18 +1,22 @@
 from django.shortcuts import render, redirect
 from app_menus.forms import CategoryCreateForm, MenuCreateForm
 from app_menus.models import Menu, Category
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required(login_url='/login/')
 def list_menu(request):
     menu_list = Menu.objects.all()
     context = { "data": menu_list}
     return render(request, 'menus/list_menu.html', context)
 
+@login_required(login_url='/login/')
 def show_menu(request, id):
     menu_obj = Menu.objects.get(id=id)
     context = {"data": menu_obj}
     return render(request, 'menus/show_menu.html', context)
 
+@login_required(login_url='/login/')
 def edit_menu(request, id):
     menu_obj = Menu.objects.get(id=id)
     category_obj = Category.objects.all()
@@ -27,11 +31,13 @@ def edit_menu(request, id):
         
     return render(request, 'menus/edit_menu.html', context)
 
+@login_required(login_url='/login/')
 def delete_menu(request, id):
     menu_obj = Menu.objects.get(id=id)
     menu_obj.delete()
     return redirect('menu-list')
 
+@login_required(login_url='/login/')
 def add_menu(request):
     menu_create_form = MenuCreateForm() # creating Form Class object
     context = { "menu_create_form": menu_create_form, "title": "Create Menu here..." }

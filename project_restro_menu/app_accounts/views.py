@@ -12,10 +12,7 @@ class LoginView(View):
     def post(self, request):
         username = request.POST.get('username')
         password = request.POST.get('password')
-        try:
-            user = authenticate(request, username=username, password=password)
-        except User.DoesNotExist as error:
-            print(error)
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             return redirect('menu-list')
