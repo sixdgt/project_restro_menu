@@ -3,11 +3,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.views import View
 from django.contrib import auth
+from django.contrib import messages
 
 # Create your views here.
 class LogoutView(View):
     def get(self, request):
         logout(request)
+        messages.success(request, "Logged out successfully")
         return redirect('login')
     
 class LoginView(View):
@@ -20,7 +22,9 @@ class LoginView(View):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            messages.success(request, "Login successfully")
             return redirect('menu-list')
+        messages.error(request, "Login fail..")
         return redirect('login')
 
 class RegisterView(View):
