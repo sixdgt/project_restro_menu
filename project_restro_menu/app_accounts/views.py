@@ -4,8 +4,16 @@ from django.contrib.auth import login, logout, authenticate
 from django.views import View
 from django.contrib import auth
 from django.contrib import messages
+from app_menus.models import Menu
+from django.db.models import Count
 
 # Create your views here.
+class DashboardView(View):
+    def get(self, request):
+        menu_total = Menu.objects.aggregate(Count('id'))
+        context = {"menu_total": menu_total.get('id__count')}
+        return render(request, 'dashboard.html', context)
+    
 class LogoutView(View):
     def get(self, request):
         logout(request)
