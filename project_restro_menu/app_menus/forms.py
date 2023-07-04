@@ -9,5 +9,5 @@ class CategoryCreateForm(forms.ModelForm):
 
 class MenuCreateForm(forms.ModelForm):
     class Meta:
-        fields = ("menu_title", "menu_price", "menu_ingredient", "menu_category")
+        fields = ("menu_title", "menu_price", "menu_ingredient", "menu_category", "menu_img")
         model = Menu
