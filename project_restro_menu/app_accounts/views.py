@@ -6,6 +6,7 @@ from django.contrib import auth
 from django.contrib import messages
 from app_menus.models import Menu
 from django.db.models import Count
+from django.core.mail import send_mail
 
 # Create your views here.
 class DashboardView(View):
@@ -52,5 +53,12 @@ class RegisterView(View):
             user.last_name = lname
             user.is_active = True
             user.save()
+            send_mail(
+                'Account Registraion', # subject
+                'Your account has been created successfully..', # message body
+                'youremail address', # sender email address
+                [user.email], # recipient address
+                # note: we can put multiple receiver email address
+            )
             return redirect('login')
         return redirect('register')
